@@ -10,10 +10,10 @@
         @apply block w-full p-2 rounded-md shadow-sm border border-gray-300 dark:border-gray-600 text-gray-500   
     }
     .button-primary{
-        @apply bg-indigo-600 hover:bg-indigo-500 text-white font-medium p-2 rounded-md
+        @apply bg-indigo-900 hover:bg-indigo-700 text-white font-medium p-2 rounded-md
     }
     .button-danger{
-        @apply bg-red-600 hover:bg-red-500 text-white font-medium p-2 rounded-md
+        @apply  hover:bg-red-500 text-white font-medium p-2 rounded-md
     }
     .input-error{
         @apply text-sm text-red-500 dark:text-red-400
@@ -30,5 +30,8 @@
     }
     .button-normal{
         @apply bg-gray-600 hover:bg-gray-400 text-white font-medium p-2 rounded-md
+    }
+    .button-outline{
+        @apply p-2 rounded-md border shadow-sm border-gray-300 dark:border-gray-800 hover:border-gray-400 hover:bg-gray-50 dark:hover:border-gray-700 dark:hover:bg-gray-800
     }
 }
