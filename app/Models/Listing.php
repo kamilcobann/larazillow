@@ -35,6 +35,15 @@ class Listing extends Model
         return $this->hasMany(ListingImage::class);
     }
 
+    /**
+     * Get all of the offers for the Listing
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class, 'listing_id');
+    }
     public function scopeMostRecent(Builder $query): Builder
     {
         return $query->orderByDesc('created_at');
