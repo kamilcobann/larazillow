@@ -72,7 +72,12 @@
             </div>
           </div>
         </Box>
-        <MakeOffer @offer-updated="offer = $event" v-if="user" :listing-id="listing.id" :price="listing.price"/>
+        <MakeOffer @offer-updated="offer = $event" v-if="user && !offerMade" :listing-id="listing.id" :price="listing.price"/>
+        
+        <OfferMade 
+        v-if="user && offerMade"
+         :offer="offerMade"/>
+        
       </div>
     </div>
   </template>
@@ -87,6 +92,7 @@
   
   import {useMonthlyPayment} from '@/Composables/useMonthlyPayment'
 import MakeOffer from './Show/Components/MakeOffer.vue'
+import OfferMade from './Show/Components/OfferMade.vue'
   
   const interestRate = ref(2.5)
   const duration = ref(25)
@@ -96,6 +102,7 @@ import MakeOffer from './Show/Components/MakeOffer.vue'
 
   const props = defineProps({
     listing: Object,
+    offerMade: Object,
   })
   
 

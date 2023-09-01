@@ -5,10 +5,13 @@
         <Box v-for="listing in listings.data" :key="listing.id" :class="{'border-dashed': listing.deleted_at}">
             <div class="flex flex-col md:flex-row gap-2 md:items-center justify-between">
                 <div :class="{'opacity-25':listing.deleted_at}">
+                    <div v-if="listings.sold_at != null" class="text-xs font-bold uppercase border border-dashed p-1 border-green-300 text-green-500 dark:border-green-600 dark:text-green-600 inline-block rounded-md mb-2">
+                        Sold
+                    </div>
                     <div class="xl:flex items-center gap-2">
                         <Price :price="listing.price" class="text-2xl font-medium"/>
-                        <ListingSpace :listing="listing"/>
                     </div>
+                    <ListingSpace :listing="listing"/>
                     <ListingAddress :listing="listing" class="text-gray-500"/>
                 </div>
                 <section>
@@ -22,6 +25,9 @@
 
                 <div class="mt-2">
                     <Link class="block w-full button-outline text-sm font-medium text-center" :href="route('realtor.listing.image.create',{listing: listing.id})">Images ({{ listing.images_count }})</Link>
+                </div>
+                <div class="mt-2">
+                    <Link class="block w-full button-outline text-sm font-medium text-center" :href="route('realtor.listing.show',{listing: listing.id})">Offers ({{ listing.offers_count }})</Link>
                 </div>
                 </section>
             </div>
