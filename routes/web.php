@@ -7,6 +7,9 @@ use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\RealtorListingController;
 use App\Http\Controllers\RealtorListingImageController;
 use App\Http\Controllers\RealtorListingAcceptOfferController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\NotificationSeenController;
+use App\Http\Controllers\UserAccountImageController;
 
 use App\Http\Controllers\ListingOfferController;
 use Illuminate\Support\Facades\Route;
@@ -30,13 +33,15 @@ Route::resource('listing', ListingController::class)
 
 Route::resource('listing.offer', ListingOfferController::class)
 ->middleware('auth')->only(['store']);
-          
+      
 Route::get('login', [AuthController::class, 'create'])->name('login');
 Route::post('login', [AuthController::class, 'store'])->name('login.store');
 Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 
+Route::resource('notification', NotificationController::class)->middleware('auth')->only(['index']);
+Route::put('notification/{notification}/seen',[NotificationSeenController::class,'__invoke'])->middleware('auth')->name('notification.seen');
 Route::resource('user-account', UserAccountController::class)->only(['create','store']);
-
+Route::resource('avatar', UserAccountImageController::class)->middleware('auth')->except(['index']);
 Route::prefix('realtor')->name('realtor.')->middleware('auth')->group(
     function (){
         Route::name('listing.restore')

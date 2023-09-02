@@ -1,13 +1,13 @@
 <template>
     <Box>
         <template #header>
-            Upload New Images
+            Upload New Profile Picture
         </template>
         <form @submit.prevent="upload">
             <section class="flex items-center gap-2 my-4">
                 
         <input class="border rounded-md file:px-4 file:py-2 border-gray-200 dark:border:gray-700 file:text-gray-700 file:dark:text-gray-400 file:border-0 file:bg-gray-100 file:dark:bg-gray-800 file:font-medium file:hover:bg-gray-200 file:dark:hover:bg-gray-700 file:hover:cursor-pointer file:mr-2"
-         type="file" multiple @input="addFiles"/>
+         type="file" @input="addFile"/>
         <button type="submit" class="button-outline disabled:opacity-25 disabled:cursor-not-allowed" :disabled="!canUpload">Upload</button>
         <button type="reset" class="button-outline">Reset</button>
             </section>
@@ -18,24 +18,11 @@
             </div>
         </div>
     </Box>
-    <Box v-if="listing.images.length" class="mt-4 ">
-        <template #header>
-            Current Listing Images
-        </template>
-        <section class="mt-4 grid grid-cols-3 gap-4">
-            <div v-for="image in listing.images" :key="image.id" class="flex flex-col justify-between">
-                <img :src="image.src" class="rounded-md"/>
-                <Link :href="route('realtor.listing.image.destroy',{listing: props.listing.id, image:image.id})" as="button" method="delete" class="mt-2 button-outline text-sm">
-                Delete
-            </Link>
-            </div>
-        </section>
-    </Box>
 </template>
 
 <script setup>
 import Box from '@/Components/UI/Box.vue'
-import  {useForm} from '@inertiajs/vue3'
+import  {useForm, usePage} from '@inertiajs/vue3'
 import {computed } from 'vue'
 import NProgress from 'nprogress'
 import { router } from '@inertiajs/vue3'
@@ -48,32 +35,34 @@ router.on('progress',(event)=>{
         NProgress.set((event.detail.progress.percentage))
     }
 })
-
+const user = usePage(
+    () => usePage().props.user
+)
 const form = useForm({
-    images: []
+    image: []
 })
 
 const imageErrors = computed(() => Object.values(form.errors))
 
-const canUpload = computed(() => form.images.length)
+const canUpload = computed(() => form.image.length)
 
 const upload = () => {
     form.post(
-        route('realtor.listing.image.store', {listing: props.listing.id}),
+        route('avatar.store', {avatar: user.id}),
         {
-            onSuccess: () => form.reset('images'),
+            onSuccess: () => reset,
         },
     )
 }
 
-const addFiles = (event) => {
+const addFile = (event) => {
 
     for(const image of event.target.files)
     {
-        form.images.push(image)
+        form.image.push(image)
     }
 
 }
 
-const reset = () => form.reset('images')
+const reset = () => form.reset('image')
 </script>

@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //
+        'Illuminate\Nofications\DatabaseNotification' => 'App\Policies\NotificationPolicy'
     ];
 
     /**
